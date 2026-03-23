@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+:root {
+  --crown-lime: #CCFF00;
+  --crown-lavender: #B8A9E8;
+  --crown-dark: #0A0A0A;
+  --crown-dark-card: #1A1A1A;
+  --crown-dark-surface: #2A2A2A;
+  --crown-white: #FAFAFA;
+  --crown-muted: #A0A0A0;
+  --crown-pink: #FF6B9D;
+  --crown-gold: #FFD700;
+}
+
+@theme inline {
+  --color-crown-lime: var(--crown-lime);
+  --color-crown-lavender: var(--crown-lavender);
+  --color-crown-dark: var(--crown-dark);
+  --color-crown-dark-card: var(--crown-dark-card);
+  --color-crown-dark-surface: var(--crown-dark-surface);
+  --color-crown-white: var(--crown-white);
+  --color-crown-muted: var(--crown-muted);
+  --color-crown-pink: var(--crown-pink);
+  --color-crown-gold: var(--crown-gold);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-space-grotesk);
+}
+
+body {
+  background: var(--crown-dark);
+  color: var(--crown-white);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), var(--font-sans), system-ui, sans-serif;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--crown-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--crown-dark-surface);
+  border-radius: 3px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(204, 255, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(204, 255, 0, 0.6);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.6s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Glow effect for lime accents */
+.glow-lime {
+  box-shadow: 0 0 20px rgba(204, 255, 0, 0.3),
+              0 0 60px rgba(204, 255, 0, 0.1);
+}
+
+.text-glow-lime {
+  text-shadow: 0 0 20px rgba(204, 255, 0, 0.5);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(204, 255, 0, 0.3);
+  color: var(--crown-white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-slide-in-right,
+  .animate-pulse-glow,
+  .animate-bounce-in,
+  .animate-float {
+    animation: none;
+  }
+}

@@ -33,8 +33,8 @@ export default function ContactPage() {
             <div className="bg-crown-dark-card rounded-2xl p-6 border border-crown-dark-surface">
               <Mail size={24} className="text-crown-lime mb-3" />
               <h3 className="font-heading font-bold text-crown-white mb-1">Email</h3>
-              <a href="mailto:hello@crowncrumbja.com" className="text-sm text-crown-muted hover:text-crown-lime transition-colors">
-                hello@crowncrumbja.com
+              <a href="mailto:crowncrumb@outlook.com" className="text-sm text-crown-muted hover:text-crown-lime transition-colors">
+                crowncrumb@outlook.com
               </a>
             </div>
             <div className="bg-crown-dark-card rounded-2xl p-6 border border-crown-dark-surface">

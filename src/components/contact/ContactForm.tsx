@@ -5,12 +5,14 @@ import { Send, CheckCircle } from 'lucide-react';
 import { whatsappLink } from '@/lib/utils';
 
 const PRODUCT_INTERESTS = [
-  'Packaging Solutions',
   'Display & Signage',
-  'Pop-Up Canopy Tents',
-  'Cold Chain & Transport',
-  'Baking Kits',
-  'Full Pop-Up Setup',
+  'Packaging Solutions',
+  'Baking Supplies',
+  'Digital Tools',
+  'Vendor Kit — Likkle But Tallawah (Beginner)',
+  'Vendor Kit — Run Di Vibes (Intermediate)',
+  'Vendor Kit — Big Tings A Gwaan (Expert)',
+  'Bulk Order',
   'Other',
 ];
 

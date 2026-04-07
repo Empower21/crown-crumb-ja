@@ -1,10 +1,9 @@
 export type CategorySlug =
-  | 'cold-chain'
   | 'display-signage'
-  | 'canopy-tents'
   | 'packaging'
-  | 'baking-kits'
-  | 'originals';
+  | 'baking-supplies'
+  | 'digital-tools'
+  | 'vendor-kits';
 
 export interface Product {
   slug: string;
@@ -15,6 +14,21 @@ export interface Product {
   images: string[];
   specs?: Record<string, string>;
   tags: string[];
+  price: number | null; // JMD price, null = TBD
+  comparePrice?: number | null; // original price for sale display
+  inStock: boolean;
+}
+
+export interface VendorKit {
+  slug: string;
+  name: string;
+  tagline: string;
+  jamaicaMeaning: string;
+  tier: 'beginner' | 'intermediate' | 'expert';
+  description: string;
+  includedProductSlugs: string[];
+  price: number | null;
+  image: string;
 }
 
 export interface Category {
@@ -26,6 +40,11 @@ export interface Category {
   productCount: number;
 }
 
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
 export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
@@ -33,12 +52,28 @@ export interface ChatMessage {
   timestamp: Date;
 }
 
-export interface PopUpEvent {
+export interface Testimonial {
   id: string;
   name: string;
-  date: string;
-  location: string;
-  description: string;
+  business: string;
+  quote: string;
   image?: string;
-  status: 'upcoming' | 'past';
+  rating: number;
+}
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+  category: string;
+}
+
+export interface ChecklistCategory {
+  name: string;
+  icon: string;
+  items: ChecklistItem[];
+}
+
+export interface ChecklistItem {
+  label: string;
+  essential: boolean;
 }

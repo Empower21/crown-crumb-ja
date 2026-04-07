@@ -2,29 +2,17 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Snowflake, LayoutGrid, Package, ChefHat, Crown } from 'lucide-react';
+import { LayoutGrid, Package, ChefHat, Monitor, Gift } from 'lucide-react';
 import { categories } from '@/data/categories';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
-import type { CategorySlug } from '@/types';
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-  Snowflake,
   LayoutGrid,
   Package,
   ChefHat,
-  Crown,
+  Monitor,
+  Gift,
 };
-
-// Tent icon inline since lucide-react may not have Tent
-function TentIcon({ size = 24, className = '' }: { size?: number; className?: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M3 21h18" />
-      <path d="M12 3L2 21h20L12 3z" />
-      <path d="M12 3v18" />
-    </svg>
-  );
-}
 
 export function CategoryShowcase() {
   return (
@@ -43,8 +31,11 @@ export function CategoryShowcase() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((cat, i) => {
-            const IconComponent = cat.icon === 'Tent' ? TentIcon : iconMap[cat.icon] || Package;
-            const href = cat.slug === 'originals' ? '/events' : `/products?category=${cat.slug}`;
+            const IconComponent = iconMap[cat.icon] || Package;
+            const href =
+              cat.slug === 'vendor-kits'
+                ? '/vendor-kits'
+                : `/products?category=${cat.slug}`;
 
             return (
               <AnimatedSection key={cat.slug} delay={i * 100}>

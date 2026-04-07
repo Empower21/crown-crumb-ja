@@ -1,8 +1,10 @@
 import { HeroSection } from '@/components/landing/HeroSection';
 import { CategoryShowcase } from '@/components/landing/CategoryShowcase';
 import { FeaturedProducts } from '@/components/landing/FeaturedProducts';
-import { EventGallery } from '@/components/landing/EventGallery';
+import { VendorKitsPreview } from '@/components/landing/VendorKitsPreview';
+import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
 import { AboutPreview } from '@/components/landing/AboutPreview';
+import { FAQSection } from '@/components/landing/FAQSection';
 
 export default function HomePage() {
   return (
@@ -10,8 +12,10 @@ export default function HomePage() {
       <HeroSection />
       <CategoryShowcase />
       <FeaturedProducts />
-      <EventGallery />
+      <VendorKitsPreview />
+      <TestimonialsSection />
       <AboutPreview />
+      <FAQSection />
     </>
   );
 }

@@ -3,22 +3,28 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Check, MessageCircle } from 'lucide-react';
-import { whatsappLink } from '@/lib/utils';
+import { ArrowLeft, Check, ShoppingBag, MessageCircle } from 'lucide-react';
+import { whatsappLink, formatPrice } from '@/lib/utils';
+import { useCart } from '@/context/CartContext';
 import type { Product } from '@/types';
 import { products } from '@/data/products';
 
 export function ProductDetail({ product }: { product: Product }) {
   const [activeImage, setActiveImage] = useState(0);
+  const { addItem, setIsOpen } = useCart();
 
   const related = products
     .filter((p) => p.category === product.category && p.slug !== product.slug)
     .slice(0, 3);
 
+  const handleAddToCart = () => {
+    addItem(product);
+    setIsOpen(true);
+  };
+
   return (
     <section className="py-8 sm:py-12 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* Back */}
         <Link
           href="/products"
           className="inline-flex items-center gap-2 text-sm text-crown-muted hover:text-crown-lime transition-colors mb-8"
@@ -73,6 +79,12 @@ export function ProductDetail({ product }: { product: Product }) {
               <h1 className="font-heading text-3xl sm:text-4xl font-bold text-crown-white mt-2">
                 {product.name}
               </h1>
+              <div className="mt-3 flex items-baseline gap-3">
+                <span className="font-heading text-2xl font-bold text-crown-lime">
+                  {formatPrice(product.price)}
+                </span>
+                <span className="text-xs text-crown-muted">JMD</span>
+              </div>
             </div>
 
             <p className="text-crown-muted leading-relaxed">{product.description}</p>
@@ -111,23 +123,31 @@ export function ProductDetail({ product }: { product: Product }) {
 
             {/* CTA */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
+              <button
+                onClick={handleAddToCart}
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-crown-lime text-crown-dark font-bold rounded-full hover:bg-crown-lime/90 transition-all"
+              >
+                <ShoppingBag size={18} />
+                Add to Cart
+              </button>
               <a
                 href={whatsappLink(
                   `Hi Crown Crumb! I'm interested in the ${product.name}. Can I get pricing and availability?`
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-crown-lime text-crown-dark font-bold rounded-full hover:bg-crown-lime/90 transition-all"
+                className="flex items-center justify-center gap-2 px-6 py-3 border-2 border-[#25D366] text-[#25D366] font-bold rounded-full hover:bg-[#25D366]/10 transition-all"
               >
                 <MessageCircle size={18} />
-                Inquire on WhatsApp
+                Ask on WhatsApp
               </a>
-              <Link
-                href="/contact"
-                className="flex items-center justify-center px-6 py-3 border-2 border-crown-lavender text-crown-lavender font-bold rounded-full hover:bg-crown-lavender/10 transition-all"
-              >
-                Request a Quote
-              </Link>
+            </div>
+
+            {/* Delivery + payment info */}
+            <div className="bg-crown-dark-card rounded-xl p-4 space-y-2 text-xs text-crown-muted">
+              <p><span className="text-crown-white font-bold">Delivery:</span> Islandwide across Jamaica. Cost calculated at checkout.</p>
+              <p><span className="text-crown-white font-bold">Payment:</span> Bank Deposit (NCB/Scotiabank) or Online Payment.</p>
+              <p><span className="text-crown-white font-bold">Currency:</span> All prices in Jamaican Dollars (JMD).</p>
             </div>
           </div>
         </div>
@@ -155,6 +175,7 @@ export function ProductDetail({ product }: { product: Product }) {
                       <h3 className="font-heading font-bold text-crown-white group-hover:text-crown-lime transition-colors">
                         {p.name}
                       </h3>
+                      <p className="text-sm text-crown-lime mt-1 font-bold">{formatPrice(p.price)}</p>
                     </div>
                   </div>
                 </Link>

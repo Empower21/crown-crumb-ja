@@ -16,6 +16,9 @@ export function Footer() {
             <p className="text-sm text-crown-muted leading-relaxed">
               Equipping Jamaica&apos;s bakers and pop-up dreamers with premium supplies, packaging, and display solutions.
             </p>
+            <p className="text-xs text-crown-muted">
+              All prices in <span className="text-crown-lime font-bold">JMD (J$)</span>
+            </p>
           </div>
 
           {/* Quick Links */}
@@ -24,7 +27,8 @@ export function Footer() {
             <ul className="space-y-2">
               {[
                 { href: '/products', label: 'Products' },
-                { href: '/events', label: 'Pop-Up Events' },
+                { href: '/vendor-kits', label: 'Vendor Kits' },
+                { href: '/checklist', label: 'Free Vendor Checklist' },
                 { href: '/about', label: 'Our Story' },
                 { href: '/contact', label: 'Contact Us' },
               ].map((link) => (
@@ -42,11 +46,11 @@ export function Footer() {
             <h3 className="font-heading text-sm font-bold text-crown-white uppercase tracking-wider mb-4">Categories</h3>
             <ul className="space-y-2">
               {[
-                { href: '/products?category=packaging', label: 'Packaging' },
                 { href: '/products?category=display-signage', label: 'Display & Signage' },
-                { href: '/products?category=canopy-tents', label: 'Canopy Tents' },
-                { href: '/products?category=baking-kits', label: 'Baking Kits' },
-                { href: '/products?category=cold-chain', label: 'Cold Chain' },
+                { href: '/products?category=packaging', label: 'Packaging' },
+                { href: '/products?category=baking-supplies', label: 'Baking Supplies' },
+                { href: '/products?category=digital-tools', label: 'Digital Tools' },
+                { href: '/vendor-kits', label: 'Vendor Kit Bundles' },
               ].map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm text-crown-muted hover:text-crown-lime transition-colors">
@@ -66,9 +70,9 @@ export function Footer() {
                 Kingston, Jamaica
               </li>
               <li>
-                <a href="mailto:hello@crowncrumbja.com" className="flex items-center gap-2 text-sm text-crown-muted hover:text-crown-lime transition-colors">
+                <a href="mailto:crowncrumb@outlook.com" className="flex items-center gap-2 text-sm text-crown-muted hover:text-crown-lime transition-colors">
                   <Mail size={16} className="text-crown-lime shrink-0" />
-                  hello@crowncrumbja.com
+                  crowncrumb@outlook.com
                 </a>
               </li>
               <li>
@@ -78,6 +82,14 @@ export function Footer() {
                 </a>
               </li>
             </ul>
+            <div className="mt-4 p-3 bg-crown-dark-surface rounded-lg">
+              <p className="text-xs text-crown-muted">
+                <span className="font-bold text-crown-white">Payment:</span> Bank Deposit (NCB/Scotiabank) &bull; Online Payment
+              </p>
+              <p className="text-xs text-crown-muted mt-1">
+                <span className="font-bold text-crown-white">Delivery:</span> Islandwide across Jamaica
+              </p>
+            </div>
           </div>
         </div>
 

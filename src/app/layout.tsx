@@ -6,6 +6,8 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton';
 import { DeeDeeWidget } from '@/components/chat/DeeDeeWidget';
+import { CartProvider } from '@/context/CartContext';
+import { CartDrawer } from '@/components/cart/CartDrawer';
 
 const spaceGrotesk = Space_Grotesk({
   variable: '--font-space-grotesk',
@@ -21,29 +23,31 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Crown Crumb JA — Pop-Up Event Supplies & Baking Packaging | Kingston, Jamaica',
+    default:
+      'Crown Crumb JA \u2014 Pop-Up Vendor Supplies & Baking Packaging | Kingston, Jamaica',
     template: '%s | Crown Crumb JA',
   },
   description:
-    'Equipping Jamaica\'s bakers and pop-up dreamers. Premium packaging solutions, display fixtures, canopy tents, and baking supplies. Based in Kingston, Jamaica.',
+    "Equipping Jamaica's bakers and pop-up dreamers. Premium packaging, display fixtures, digital tools, and curated vendor kits. Islandwide delivery. All prices in JMD.",
   keywords: [
     'pop-up supplies Jamaica',
     'baking packaging Kingston',
-    'event tent Jamaica',
+    'vendor kits Jamaica',
     'bakery supplies Jamaica',
     'food packaging Jamaica',
     'display stands Kingston',
     'Crown Crumb',
-    'pop-up event fixtures',
-    'kraft bags Jamaica',
-    'baking kits Caribbean',
+    'chalkboard stands Jamaica',
+    'dome containers Jamaica',
+    'digital signage vendor',
   ],
   authors: [{ name: 'Danielle Lawrence' }],
   creator: 'Crown Crumb JA',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://crown-crumb-ja.vercel.app'),
+  metadataBase: new URL('https://crown-crumb-ja.vercel.app'),
   openGraph: {
-    title: 'Crown Crumb JA — Pop-Up Event Supplies & Baking Packaging',
-    description: 'Equipping Jamaica\'s bakers and pop-up dreamers with premium packaging, display fixtures, and baking supplies.',
+    title: 'Crown Crumb JA \u2014 Pop-Up Vendor Supplies & Baking Packaging',
+    description:
+      "Equipping Jamaica's bakers and pop-up dreamers with premium packaging, display fixtures, and curated vendor kits. Islandwide delivery.",
     url: '/',
     siteName: 'Crown Crumb JA',
     locale: 'en_JM',
@@ -60,7 +64,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Crown Crumb JA',
-    description: 'Pop-up event supplies and baking packaging in Kingston, Jamaica.',
+    description:
+      'Pop-up vendor supplies and baking packaging in Kingston, Jamaica. All prices in JMD.',
   },
   icons: {
     icon: '/favicon.ico',
@@ -72,9 +77,11 @@ const jsonLdString = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
   name: 'Crown Crumb JA',
-  description: 'Pop-up event supplies, baking packaging solutions, and display fixtures in Kingston, Jamaica.',
+  description:
+    'Pop-up vendor supplies, baking packaging solutions, and display fixtures in Kingston, Jamaica.',
   url: 'https://crown-crumb-ja.vercel.app',
   logo: 'https://crown-crumb-ja.vercel.app/logo.png',
+  email: 'crowncrumb@outlook.com',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Kingston',
@@ -86,6 +93,7 @@ const jsonLdString = JSON.stringify({
     jobTitle: 'Founder & Creative Director',
   },
   areaServed: 'Jamaica',
+  priceCurrency: 'JMD',
   priceRange: '$$',
 });
 
@@ -109,11 +117,14 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="min-h-full flex flex-col bg-crown-dark text-crown-white">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <WhatsAppButton />
-        <DeeDeeWidget />
+        <CartProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <WhatsAppButton />
+          <DeeDeeWidget />
+          <CartDrawer />
+        </CartProvider>
       </body>
     </html>
   );

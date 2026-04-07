@@ -2,51 +2,48 @@ import { Category } from '@/types';
 
 export const categories: Category[] = [
   {
-    slug: 'cold-chain',
-    name: 'Cold Chain & Transport',
-    description: 'Insulated delivery bags and ice packs to keep your baked goods fresh from kitchen to customer.',
-    icon: 'Snowflake',
-    heroImage: '/products/cold-chain/delivery-bag-colors.jpg',
-    productCount: 2,
-  },
-  {
     slug: 'display-signage',
     name: 'Display & Signage',
-    description: 'Wooden risers, chalkboard stands, and pedestal displays to showcase your products beautifully.',
+    description:
+      'Chalkboard stands, pedestal displays, wooden risers, and chalk markers to showcase your products beautifully.',
     icon: 'LayoutGrid',
-    heroImage: '/products/display-signage/wood-risers.jpg',
+    heroImage: '/products/chalkboard-stands/bakery-use.jpg',
     productCount: 4,
-  },
-  {
-    slug: 'canopy-tents',
-    name: 'Pop-Up Canopy Tents',
-    description: 'Water-resistant, UV-protected canopy tents built for Jamaica\'s sun and surprise showers.',
-    icon: 'Tent',
-    heroImage: '/products/canopy-tents/canopy-tent.jpg',
-    productCount: 1,
   },
   {
     slug: 'packaging',
     name: 'Packaging Solutions',
-    description: 'Kraft bags, dome containers, and sealed bags to present your creations with style.',
+    description:
+      'Dome containers, sealed bags, and presentation packaging to make your baked goods irresistible.',
     icon: 'Package',
-    heroImage: '/products/packaging/kraft-bags-window.jpg',
-    productCount: 3,
+    heroImage: '/products/dome-containers/with-desserts.jpg',
+    productCount: 2,
   },
   {
-    slug: 'baking-kits',
-    name: 'Baking Kits',
-    description: 'All-in-one baking sets with loaf pans, lids, belly bands, and sporks — everything you need.',
+    slug: 'baking-supplies',
+    name: 'Baking Supplies',
+    description:
+      'Premium aluminium baking cups, dome lids, and everything you need for professional-grade baking.',
     icon: 'ChefHat',
-    heroImage: '/products/baking-kits/baking-set-details.jpg',
+    heroImage: '/products/baking-cups/in-use.jpg',
     productCount: 1,
   },
   {
-    slug: 'originals',
-    name: 'Crown Crumb Originals',
-    description: 'See our products in action at real pop-up events across Kingston.',
-    icon: 'Crown',
-    heroImage: '/products/events/popup-display-2.jpg',
-    productCount: 0,
+    slug: 'digital-tools',
+    name: 'Digital Tools',
+    description:
+      'Digital signage displays and pocket cameras to elevate your vendor presence and content game.',
+    icon: 'Monitor',
+    heroImage: '/products/digital-signage/cafe-use.jpg',
+    productCount: 2,
+  },
+  {
+    slug: 'vendor-kits',
+    name: 'Vendor Kits',
+    description:
+      'Curated bundles for every stage of your vendor journey \u2014 from first market to full festival anchor.',
+    icon: 'Gift',
+    heroImage: '/products/customers/popup-booth.jpg',
+    productCount: 3,
   },
 ];

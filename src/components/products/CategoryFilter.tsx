@@ -19,7 +19,7 @@ export function CategoryFilter() {
 
   const allCategories = [
     { slug: 'all', name: 'All Products' },
-    ...categories.filter((c) => c.slug !== 'originals'),
+    ...categories.filter((c) => c.slug !== 'vendor-kits'),
   ];
 
   return (

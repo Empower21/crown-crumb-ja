@@ -2,6 +2,7 @@
 
 import { products } from '@/data/products';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
+import { ContainerScrollAnimation } from '@/components/ui/ContainerScrollAnimation';
 import { ProductCard } from '@/components/products/ProductCard';
 import Link from 'next/link';
 
@@ -25,13 +26,15 @@ export function FeaturedProducts() {
           </div>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featured.map((product, i) => (
-            <AnimatedSection key={product.slug} delay={i * 100}>
-              <ProductCard product={product} />
-            </AnimatedSection>
-          ))}
-        </div>
+        <ContainerScrollAnimation>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featured.map((product, i) => (
+              <AnimatedSection key={product.slug} delay={i * 100}>
+                <ProductCard product={product} />
+              </AnimatedSection>
+            ))}
+          </div>
+        </ContainerScrollAnimation>
 
         <AnimatedSection className="text-center mt-10">
           <Link

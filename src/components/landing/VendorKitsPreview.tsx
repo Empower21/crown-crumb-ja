@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { vendorKits } from '@/data/vendor-kits';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
+import { ContainerScrollAnimation } from '@/components/ui/ContainerScrollAnimation';
 
 const tierColors = {
   beginner: 'from-emerald-900 to-emerald-700',
@@ -35,9 +36,10 @@ export function VendorKitsPreview() {
           </div>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {vendorKits.map((kit, i) => (
-            <AnimatedSection key={kit.slug} delay={i * 120}>
+        <ContainerScrollAnimation>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {vendorKits.map((kit, i) => (
+              <AnimatedSection key={kit.slug} delay={i * 120}>
               <Link href={`/vendor-kits#${kit.slug}`} className="group block h-full">
                 <div className="bg-crown-dark rounded-2xl overflow-hidden border border-crown-dark-surface hover:border-crown-lime/30 transition-all duration-300 h-full flex flex-col">
                   <div className={`relative h-48 bg-gradient-to-br ${tierColors[kit.tier]} p-6 flex flex-col justify-end`}>
@@ -77,8 +79,9 @@ export function VendorKitsPreview() {
                 </div>
               </Link>
             </AnimatedSection>
-          ))}
-        </div>
+            ))}
+          </div>
+        </ContainerScrollAnimation>
       </div>
     </section>
   );

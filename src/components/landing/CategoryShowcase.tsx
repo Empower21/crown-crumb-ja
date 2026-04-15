@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { LayoutGrid, Package, ChefHat, Monitor, Gift } from 'lucide-react';
+import { LayoutGrid, Package, ChefHat, Monitor, Gift, Snowflake, Tent } from 'lucide-react';
 import { categories } from '@/data/categories';
 import { AnimatedSection } from '@/components/ui/AnimatedSection';
 
@@ -12,6 +12,8 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; className?: s
   ChefHat,
   Monitor,
   Gift,
+  Snowflake,
+  Tent,
 };
 
 export function CategoryShowcase() {

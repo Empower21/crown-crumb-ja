@@ -117,10 +117,9 @@ export default function RootLayout({
         </Script>
         <Script
           id="google-adsense"
-          async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2551705530484163"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
         />
       </head>
       <body className="min-h-full flex flex-col bg-crown-dark text-crown-white">

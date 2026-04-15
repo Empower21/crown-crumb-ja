@@ -5,10 +5,11 @@ import Link from 'next/link';
 import { ShoppingBag } from 'lucide-react';
 import type { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
-import { formatPrice } from '@/lib/utils';
+import { useGeoPrice } from '@/hooks/useGeoPrice';
 
 export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
+  const { formatGeoPrice } = useGeoPrice();
 
   return (
     <div className="bg-crown-dark-card rounded-2xl overflow-hidden border border-crown-dark-surface hover:border-crown-lime/30 transition-all duration-300 h-full flex flex-col group">
@@ -37,7 +38,7 @@ export function ProductCard({ product }: { product: Product }) {
         </p>
         <div className="mt-4 flex items-center justify-between">
           <span className="font-heading text-lg font-bold text-crown-lime">
-            {formatPrice(product.price)}
+            {formatGeoPrice(product.price)}
           </span>
           <button
             onClick={() => addItem(product)}

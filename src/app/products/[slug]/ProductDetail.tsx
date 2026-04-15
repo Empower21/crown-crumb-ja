@@ -4,14 +4,17 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Check, ShoppingBag, MessageCircle } from 'lucide-react';
-import { whatsappLink, formatPrice } from '@/lib/utils';
+import { whatsappLink } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
+import { useGeoPrice } from '@/hooks/useGeoPrice';
+import { DeliveryEstimator } from '@/components/products/DeliveryEstimator';
 import type { Product } from '@/types';
 import { products } from '@/data/products';
 
 export function ProductDetail({ product }: { product: Product }) {
   const [activeImage, setActiveImage] = useState(0);
   const { addItem, setIsOpen } = useCart();
+  const { formatGeoPrice } = useGeoPrice();
 
   const related = products
     .filter((p) => p.category === product.category && p.slug !== product.slug)
@@ -81,9 +84,8 @@ export function ProductDetail({ product }: { product: Product }) {
               </h1>
               <div className="mt-3 flex items-baseline gap-3">
                 <span className="font-heading text-2xl font-bold text-crown-lime">
-                  {formatPrice(product.price)}
+                  {formatGeoPrice(product.price)}
                 </span>
-                <span className="text-xs text-crown-muted">JMD</span>
               </div>
             </div>
 
@@ -143,11 +145,13 @@ export function ProductDetail({ product }: { product: Product }) {
               </a>
             </div>
 
-            {/* Delivery + payment info */}
+            {/* Delivery Estimator */}
+            <DeliveryEstimator product={product} />
+
+            {/* Payment info */}
             <div className="bg-crown-dark-card rounded-xl p-4 space-y-2 text-xs text-crown-muted">
-              <p><span className="text-crown-white font-bold">Delivery:</span> Islandwide across Jamaica. Cost calculated at checkout.</p>
               <p><span className="text-crown-white font-bold">Payment:</span> Bank Deposit (NCB/Scotiabank) or Online Payment.</p>
-              <p><span className="text-crown-white font-bold">Currency:</span> All prices in Jamaican Dollars (JMD).</p>
+              <p><span className="text-crown-white font-bold">Currency:</span> All prices in Jamaican Dollars (JMD). International visitors see approximate conversions.</p>
             </div>
           </div>
         </div>
@@ -175,7 +179,9 @@ export function ProductDetail({ product }: { product: Product }) {
                       <h3 className="font-heading font-bold text-crown-white group-hover:text-crown-lime transition-colors">
                         {p.name}
                       </h3>
-                      <p className="text-sm text-crown-lime mt-1 font-bold">{formatPrice(p.price)}</p>
+                      <p className="text-sm text-crown-lime mt-1 font-bold">
+                        {formatGeoPrice(p.price)}
+                      </p>
                     </div>
                   </div>
                 </Link>

@@ -3,7 +3,9 @@ export type CategorySlug =
   | 'packaging'
   | 'baking-supplies'
   | 'digital-tools'
-  | 'vendor-kits';
+  | 'vendor-kits'
+  | 'cold-chain'
+  | 'canopy-tents';
 
 export interface Product {
   slug: string;
@@ -14,9 +16,10 @@ export interface Product {
   images: string[];
   specs?: Record<string, string>;
   tags: string[];
-  price: number | null; // JMD price, null = TBD
-  comparePrice?: number | null; // original price for sale display
+  price: number | null;
+  comparePrice?: number | null;
   inStock: boolean;
+  bulkyItem?: boolean;
 }
 
 export interface VendorKit {
@@ -76,4 +79,41 @@ export interface ChecklistCategory {
 export interface ChecklistItem {
   label: string;
   essential: boolean;
+}
+
+export type DeliveryZoneId =
+  | 'kingston-metro'
+  | 'rest-of-jamaica'
+  | 'caribbean'
+  | 'north-america'
+  | 'uk-europe';
+
+export interface DeliveryZone {
+  id: DeliveryZoneId;
+  name: string;
+  baseRate: number;
+  perAdditionalItem: number;
+  freeShippingThreshold: number | null;
+  estimatedDays: string;
+}
+
+export interface DeliveryResult {
+  zone: DeliveryZone;
+  baseRate: number;
+  fuelSurcharge: number;
+  peakSurcharge: number;
+  bulkyItemSurcharge: number;
+  rushSurcharge: number;
+  total: number;
+  isFreeShipping: boolean;
+}
+
+export interface CurrencyInfo {
+  code: string;
+  symbol: string;
+  name: string;
+}
+
+export interface ExchangeRates {
+  [currencyCode: string]: number;
 }

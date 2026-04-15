@@ -3,12 +3,14 @@
 import { X, Plus, Minus, Trash2, ShoppingBag } from 'lucide-react';
 import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
-import { formatPrice } from '@/lib/utils';
-import { whatsappLink } from '@/lib/utils';
+import { formatPrice, whatsappLink } from '@/lib/utils';
+import { useGeoPrice } from '@/hooks/useGeoPrice';
+import { DeliveryBreakdown } from '@/components/cart/DeliveryBreakdown';
 
 export function CartDrawer() {
   const { items, isOpen, setIsOpen, removeItem, updateQuantity, totalItems, totalPrice, clearCart } =
     useCart();
+  const { formatGeoPrice } = useGeoPrice();
 
   if (!isOpen) return null;
 
@@ -78,7 +80,7 @@ export function CartDrawer() {
                       {item.product.name}
                     </h3>
                     <p className="text-xs text-crown-lime mt-0.5">
-                      {formatPrice(item.product.price)}
+                      {formatGeoPrice(item.product.price)}
                     </p>
                     <div className="flex items-center gap-2 mt-2">
                       <button
@@ -114,14 +116,14 @@ export function CartDrawer() {
         {items.length > 0 && (
           <div className="px-6 py-4 border-t border-crown-dark-surface space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-crown-muted">Subtotal (JMD)</span>
+              <span className="text-sm text-crown-muted">Subtotal</span>
               <span className="font-heading text-lg font-bold text-crown-lime">
-                {totalPrice > 0 ? formatPrice(totalPrice) : 'Pricing TBD'}
+                {totalPrice > 0 ? formatGeoPrice(totalPrice) : 'Pricing TBD'}
               </span>
             </div>
-            <p className="text-xs text-crown-muted">
-              Delivery calculated at checkout. Bank deposit also accepted.
-            </p>
+
+            <DeliveryBreakdown items={items} />
+
             <a
               href={whatsappCheckout}
               target="_blank"

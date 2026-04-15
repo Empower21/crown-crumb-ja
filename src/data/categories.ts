@@ -26,7 +26,7 @@ export const categories: Category[] = [
       'Premium aluminium baking cups, dome lids, and everything you need for professional-grade baking.',
     icon: 'ChefHat',
     heroImage: '/products/baking-cups/in-use.jpg',
-    productCount: 1,
+    productCount: 2,
   },
   {
     slug: 'digital-tools',
@@ -36,6 +36,24 @@ export const categories: Category[] = [
     icon: 'Monitor',
     heroImage: '/products/digital-signage/cafe-use.jpg',
     productCount: 2,
+  },
+  {
+    slug: 'cold-chain',
+    name: 'Cold Chain & Transport',
+    description:
+      'Ice pack sheets and cold chain solutions to keep your baked goods fresh during transport and at your pop-up.',
+    icon: 'Snowflake',
+    heroImage: '/products/cold-chain/ice-packs-sheets.jpg',
+    productCount: 1,
+  },
+  {
+    slug: 'canopy-tents',
+    name: 'Canopy & Shelter',
+    description:
+      'Portable canopy tents and shelter for outdoor markets, festivals, and events. Set up in minutes.',
+    icon: 'Tent',
+    heroImage: '/products/canopy-tents/canopy-tent.jpg',
+    productCount: 1,
   },
   {
     slug: 'vendor-kits',

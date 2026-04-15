@@ -21,6 +21,7 @@ export const products: Product[] = [
       '/products/chalkboard-stands/event-use.jpg',
       '/products/chalkboard-stands/charcuterie-use.jpg',
       '/products/chalkboard-stands/removable.jpg',
+      '/products/chalkboard-stands/boxed-set.jpg',
     ],
     specs: {
       Quantity: '20 pieces',
@@ -29,7 +30,7 @@ export const products: Product[] = [
       'Base Width': '1.4"',
     },
     tags: ['chalkboard', 'signs', 'labels', 'pricing', 'display'],
-    price: null,
+    price: 7500,
     inStock: true,
   },
   {
@@ -59,8 +60,9 @@ export const products: Product[] = [
       'Base Type': 'Weighted (sand/water fill)',
     },
     tags: ['stand', 'signage', 'menu', 'adjustable', 'pedestal'],
-    price: null,
+    price: 16500,
     inStock: true,
+    bulkyItem: true,
   },
   {
     slug: 'chalk-markers',
@@ -83,7 +85,7 @@ export const products: Product[] = [
       Surface: 'Chalkboard, glass, mirrors',
     },
     tags: ['chalk', 'markers', 'colours', 'writing', 'signs'],
-    price: null,
+    price: 4500,
     inStock: true,
   },
   {
@@ -107,7 +109,7 @@ export const products: Product[] = [
       Style: 'Rustic / artisan',
     },
     tags: ['display', 'wood', 'risers', 'tiered', 'rustic'],
-    price: null,
+    price: 14500,
     inStock: true,
   },
 
@@ -137,7 +139,7 @@ export const products: Product[] = [
       'Base Colour': 'Gold',
     },
     tags: ['dome', 'container', 'macaron', 'display', 'gold', 'cupcake'],
-    price: null,
+    price: 5800,
     inStock: true,
   },
   {
@@ -160,7 +162,7 @@ export const products: Product[] = [
       Stickers: 'Included',
     },
     tags: ['bags', 'stickers', 'handmade', 'cupcake', 'cookie', 'packaging'],
-    price: null,
+    price: 3500,
     inStock: true,
   },
 
@@ -190,7 +192,32 @@ export const products: Product[] = [
       'Safe For': 'Oven, BBQ, Air Fryer, Refrigerator',
     },
     tags: ['baking', 'cupcake', 'cups', 'dome', 'lids', 'aluminium'],
-    price: null,
+    price: 6500,
+    inStock: true,
+  },
+  {
+    slug: 'baking-cups-100pc',
+    name: 'Baking Cups Set — 100pc (Gold & Black)',
+    category: 'baking-supplies',
+    description:
+      'Large 100-piece set of aluminium baking cups with clear dome lids and sporks. Gold and black colourway for a premium look. Bulk pack for serious bakers and event vendors.',
+    features: [
+      '100 aluminium cups with dome lids',
+      'Sporks included',
+      'Gold and black colourway',
+      'Oven, BBQ, air fryer, and refrigerator safe',
+      'Bulk pack — ideal for events and catering',
+      'Stackable for easy storage',
+    ],
+    images: ['/products/baking-kits/all-in-one-set.jpg'],
+    specs: {
+      Quantity: '100 cups + lids + sporks',
+      Material: 'Aluminium (gold & black)',
+      'Max Temp': '482\u00b0F / 250\u00b0C',
+      'Safe For': 'Oven, BBQ, Air Fryer, Refrigerator',
+    },
+    tags: ['baking', 'cupcake', 'cups', 'bulk', '100pc', 'gold', 'black'],
+    price: 8500,
     inStock: true,
   },
 
@@ -224,8 +251,9 @@ export const products: Product[] = [
       CMS: 'Free — images, videos, text',
     },
     tags: ['digital', 'signage', 'menu', 'display', 'touchscreen', 'table'],
-    price: null,
+    price: 125000,
     inStock: true,
+    bulkyItem: true,
   },
   {
     slug: 'pocket-camera',
@@ -252,8 +280,70 @@ export const products: Product[] = [
       'Best For': 'Pop-up content, social media',
     },
     tags: ['camera', 'gimbal', 'video', 'content', 'social media'],
-    price: null,
+    price: 55000,
     inStock: true,
+  },
+
+  // Cold Chain & Transport
+  {
+    slug: 'ice-pack-sheets',
+    name: 'Ice Pack Sheets — 144 Cells',
+    category: 'cold-chain',
+    description:
+      'Reusable dry ice pack sheets with 144 cells across 6 sheets. Soak in water, freeze, and cut to size. Keeps baked goods, drinks, and perishables cold during transport and at your pop-up. No mess, no melting water.',
+    features: [
+      '6 sheets with 144 cells total',
+      'Reusable — just re-soak and refreeze',
+      'Cut to any size needed',
+      'No mess — no melting water like regular ice',
+      'Lightweight and easy to store',
+      'Perfect for food transport and pop-up cold displays',
+    ],
+    images: [
+      '/products/cold-chain/ice-packs-sheets.jpg',
+      '/products/cold-chain/ice-packs-comparison.jpg',
+      '/products/cold-chain/ice-packs-instructions.jpg',
+    ],
+    specs: {
+      Quantity: '6 sheets (144 cells)',
+      Type: 'Dry ice pack (reusable)',
+      Activation: 'Soak 5 min, freeze 6+ hours',
+      'Best For': 'Food transport, cold displays',
+    },
+    tags: ['ice', 'cold', 'transport', 'delivery', 'reusable', 'sheets'],
+    price: 5500,
+    inStock: true,
+  },
+
+  // Canopy & Shelter
+  {
+    slug: 'popup-canopy-tent',
+    name: 'Pop-Up Canopy Tent — 10x10 ft',
+    category: 'canopy-tents',
+    description:
+      'Portable 10x10 ft pop-up canopy tent with carry bag and weighted sandbags. Durable steel frame, UV-resistant top, and reinforced corners. Sets up in minutes — essential shelter for outdoor markets and events.',
+    features: [
+      '10x10 ft coverage area',
+      'Durable steel frame with reinforced corners',
+      'UV-resistant canopy top',
+      'Weighted sandbags included for stability',
+      'Carry bag for easy transport',
+      'Sets up in under 5 minutes',
+    ],
+    images: [
+      '/products/canopy-tents/canopy-tent.jpg',
+      '/products/canopy-tents/canopy-outdoor.jpg',
+    ],
+    specs: {
+      Size: '10 x 10 ft',
+      Frame: 'Steel (powder-coated)',
+      Canopy: 'UV-resistant polyester',
+      Includes: 'Carry bag + 4 weighted sandbags',
+    },
+    tags: ['canopy', 'tent', 'shelter', 'outdoor', 'popup', 'market'],
+    price: 48000,
+    inStock: true,
+    bulkyItem: true,
   },
 ];
 

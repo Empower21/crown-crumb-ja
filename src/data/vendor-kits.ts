@@ -15,7 +15,7 @@ export const vendorKits: VendorKit[] = [
       'handmade-sealed-bags',
       'dome-containers',
     ],
-    price: null,
+    price: 17500,
     image: '/products/chalkboard-stands/event-use.jpg',
   },
   {
@@ -25,7 +25,7 @@ export const vendorKits: VendorKit[] = [
     jamaicaMeaning: 'Set the atmosphere \u2014 Caribbean slang',
     tier: 'intermediate',
     description:
-      'For the vendor who has done a few events and is ready to build a real presence. Adds tiered displays, professional signage, and premium baking supplies to your setup.',
+      'For the vendor who has done a few events and is ready to build a real presence. Adds tiered displays, professional signage, premium baking supplies, and cold chain to your setup.',
     includedProductSlugs: [
       'mini-chalkboard-stands',
       'chalk-markers',
@@ -34,8 +34,9 @@ export const vendorKits: VendorKit[] = [
       'wooden-display-risers',
       'adjustable-pedestal-stand',
       'cupcake-baking-cups',
+      'ice-pack-sheets',
     ],
-    price: null,
+    price: 48000,
     image: '/products/display-risers/wood-risers.jpg',
   },
   {
@@ -45,7 +46,7 @@ export const vendorKits: VendorKit[] = [
     jamaicaMeaning: 'Major things are happening \u2014 top Jamaican expression',
     tier: 'expert',
     description:
-      'The complete professional vendor ecosystem. Digital signage, content creation camera, and every product we offer \u2014 for the vendor anchoring a market or running a catering booth at a festival.',
+      'The complete professional vendor ecosystem. Digital signage, content creation camera, canopy shelter, cold chain, and every product we offer \u2014 for the vendor anchoring a market or running a catering booth at a festival.',
     includedProductSlugs: [
       'mini-chalkboard-stands',
       'chalk-markers',
@@ -54,10 +55,12 @@ export const vendorKits: VendorKit[] = [
       'wooden-display-risers',
       'adjustable-pedestal-stand',
       'cupcake-baking-cups',
+      'ice-pack-sheets',
+      'popup-canopy-tent',
       'digital-signage-display',
       'pocket-camera',
     ],
-    price: null,
+    price: 245000,
     image: '/products/digital-signage/cafe-use.jpg',
   },
 ];

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X, ShoppingBag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { CurrencySelector } from '@/components/layout/CurrencySelector';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -51,6 +52,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <CurrencySelector />
             {/* Cart button */}
             <button
               onClick={() => setIsOpen(true)}

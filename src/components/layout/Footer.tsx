@@ -10,7 +10,7 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <Image src="/logo.png" alt="Crown Crumb JA" width={40} height={40} className="rounded-lg" />
+              <Image src="/flexicon.webp" alt="Crown Crumb JA" width={40} height={40} className="rounded-lg" />
               <span className="font-heading text-lg font-bold text-crown-lime">Crown Crumb JA</span>
             </div>
             <p className="text-sm text-crown-muted leading-relaxed">

@@ -16,3 +16,12 @@ export function formatPrice(price: number | null): string {
   if (price === null) return 'Price TBD';
   return formatJMD(price);
 }
+
+export function convertJmdTo(
+  jmdAmount: number,
+  rate: number,
+  symbol: string
+): string {
+  const converted = Math.round(jmdAmount * rate);
+  return `~${symbol}${converted.toLocaleString()}`;
+}

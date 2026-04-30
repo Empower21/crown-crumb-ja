@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe';
 import { products } from '@/data/products';
 import type { Product } from '@/types';
+import { fallbackRates, getCurrencyForCountry } from '@/data/currency-config';
 
 export const runtime = 'nodejs';
 
@@ -13,17 +14,28 @@ interface CheckoutBody {
     variantPriceJMD?: number | null;
     variantName?: string;
   }[];
+  /** Visitor's selected country (sent from client cookie). When absent, we read the cookie server-side. */
   country?: string;
 }
+
+// Stripe presentment currencies we expose. Keep in sync with currencyMap in
+// currency-config.ts. JMD is the canonical base; the others are conversions.
+const SUPPORTED_CURRENCIES = ['JMD', 'USD', 'CAD', 'GBP', 'TTD', 'BBD'] as const;
+type SupportedCurrency = (typeof SUPPORTED_CURRENCIES)[number];
 
 /**
  * POST /api/checkout/create-session
  *
- * Creates a Stripe Checkout Session for the user's cart and returns the URL
- * for client-side redirect. We charge in JMD (Jamaican Dollar) because:
- *   1. It matches our canonical product data (src/data/products.ts)
- *   2. Stripe supports JMD as a presentment currency
- *   3. The customer's card issuer handles FX; no rounding drift between UI and charge
+ * Creates a Stripe Checkout Session in the visitor's preferred currency.
+ *
+ * Currency selection (in priority order):
+ *   1. body.country (sent by the client from the cc-country cookie)
+ *   2. cookie header on the request
+ *   3. default JMD
+ *
+ * The product catalogue is priced in JMD. We convert to the chosen currency
+ * using live exchange rates (24hr ISR-cached via /api/exchange-rates) and
+ * fall back to hardcoded rates if the FX call fails.
  *
  * Payment methods are selected dynamically via Stripe Dashboard settings —
  * don't hardcode payment_method_types here.
@@ -40,9 +52,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Cart is empty' }, { status: 400 });
   }
 
-  // Build line items. For each cart item we look up the real product (to get
-  // the name/image) and use the runtime price — either the product's single
-  // price, or the tier price captured at "add to cart" time.
+  const country = (body.country ?? readCountryFromCookie(request) ?? 'JM').toUpperCase();
+  const targetCurrency = getCurrencyForCountry(country).code as SupportedCurrency;
+  const safeCurrency: SupportedCurrency = SUPPORTED_CURRENCIES.includes(targetCurrency)
+    ? targetCurrency
+    : 'JMD';
+
+  // Live FX rate (24hr ISR cached); falls back to hardcoded values if API fails.
+  const rate = await getJmdToCurrencyRate(safeCurrency);
+
   const lineItems: Array<{
     price_data: {
       currency: string;
@@ -53,14 +71,10 @@ export async function POST(request: Request) {
   }> = [];
 
   for (const item of body.items) {
-    // Tier variants use slug like "dome-containers::10" — the base slug is before "::"
     const baseSlug = item.slug.split('::')[0];
     const product: Product | undefined = products.find((p) => p.slug === baseSlug);
     if (!product) {
-      return NextResponse.json(
-        { error: `Unknown product: ${item.slug}` },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: `Unknown product: ${item.slug}` }, { status: 400 });
     }
 
     const priceJMD = item.variantPriceJMD ?? product.price;
@@ -71,16 +85,18 @@ export async function POST(request: Request) {
       );
     }
 
-    const displayName = item.variantName ?? product.name;
+    // Convert JMD → target currency, then to smallest currency unit (cents).
+    // Math.round avoids drift; Stripe rejects fractional minor units.
+    const unitAmount = Math.round(priceJMD * rate * 100);
 
     lineItems.push({
       price_data: {
-        currency: 'jmd',
+        currency: safeCurrency.toLowerCase(),
         product_data: {
-          name: displayName,
+          name: item.variantName ?? product.name,
           images: product.images.length > 0 ? [absoluteImageUrl(product.images[0])] : undefined,
         },
-        unit_amount: priceJMD * 100, // Stripe uses smallest currency unit — JMD cents
+        unit_amount: unitAmount,
       },
       quantity: item.quantity,
     });
@@ -104,23 +120,55 @@ export async function POST(request: Request) {
       automatic_tax: { enabled: false },
       metadata: {
         source: 'crown-crumb-ja-web',
-        country: body.country ?? 'unknown',
+        country,
+        presentment_currency: safeCurrency,
+        // Useful for reconciliation against your JMD catalogue
+        jmd_to_currency_rate: String(rate),
       },
     });
 
     if (!session.url) {
       return NextResponse.json({ error: 'Stripe did not return a redirect URL' }, { status: 502 });
     }
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({ url: session.url, currency: safeCurrency });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Stripe error';
-    // Don't leak secret-key issues to the client — log server-side
     console.error('[checkout] Stripe error:', message);
     return NextResponse.json(
       { error: 'Could not start checkout. Please try again or contact us.' },
       { status: 500 },
     );
   }
+}
+
+// --- helpers --------------------------------------------------------------
+
+function readCountryFromCookie(request: Request): string | null {
+  const cookie = request.headers.get('cookie') ?? '';
+  const match = cookie.match(/(?:^|;\s*)cc-country=([^;]+)/);
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+/**
+ * Returns the rate to convert 1 JMD into the target currency. JMD → JMD = 1.
+ * Live rates are fetched from exchangerate-api via our cached /api/exchange-rates
+ * route; falls back to hardcoded values in currency-config.ts on failure.
+ */
+async function getJmdToCurrencyRate(currency: SupportedCurrency): Promise<number> {
+  if (currency === 'JMD') return 1;
+  try {
+    // Use the public API so this still works in serverless without process.env config
+    const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://crown-crumb-ja.vercel.app';
+    const res = await fetch(`${base}/api/exchange-rates`, { next: { revalidate: 86400 } });
+    if (res.ok) {
+      const data = (await res.json()) as { rates?: Record<string, number> };
+      const live = data.rates?.[currency];
+      if (typeof live === 'number' && live > 0) return live;
+    }
+  } catch {
+    // fall through to fallback
+  }
+  return fallbackRates[currency] ?? 1;
 }
 
 /**

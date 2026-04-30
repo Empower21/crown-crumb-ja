@@ -69,8 +69,13 @@ export function VendorKitsPreview() {
                     </p>
                     <div className="mt-4 flex items-center justify-between">
                       <span className="text-xs text-crown-muted">
-                        {kit.includedProductSlugs.length} products included
+                        {kit.includedProductSlugs.length} products
                       </span>
+                      {kit.comparePrice && kit.price && kit.comparePrice > kit.price && (
+                        <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-crown-lime/15 border border-crown-lime/40 text-crown-lime font-bold">
+                          Save {Math.round((1 - kit.price / kit.comparePrice) * 100)}%
+                        </span>
+                      )}
                       <span className="text-sm font-bold text-crown-lime group-hover:underline">
                         View Kit &rarr;
                       </span>

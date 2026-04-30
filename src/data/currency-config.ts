@@ -17,13 +17,15 @@ export const defaultCurrency: CurrencyInfo = {
   name: 'US Dollar',
 };
 
-// Fallback rates: JMD to target currency (approximate, used if API fails)
+// Fallback rates: JMD to target currency (used if exchangerate-api is unreachable).
+// Refreshed from https://api.exchangerate-api.com/v4/latest/JMD on 2026-04-30.
+// The /api/exchange-rates route fetches live values daily (24hr ISR cache).
 export const fallbackRates: ExchangeRates = {
-  USD: 0.00641,   // 1 JMD = 0.00641 USD (1 USD ~= 156 JMD)
-  CAD: 0.00884,   // 1 JMD = 0.00884 CAD
-  GBP: 0.00512,   // 1 JMD = 0.00512 GBP
-  TTD: 0.0435,    // 1 JMD = 0.0435 TTD
-  BBD: 0.01282,   // 1 JMD = 0.01282 BBD
+  USD: 0.00637,   // 1 JMD = 0.00637 USD (1 USD ~= J$157)
+  CAD: 0.00871,   // 1 JMD = 0.00871 CAD (1 CAD ~= J$115)
+  GBP: 0.00471,   // 1 JMD = 0.00471 GBP (1 GBP ~= J$212)
+  TTD: 0.0433,    // 1 JMD = 0.0433 TTD  (1 TTD ~= J$23)
+  BBD: 0.0127,    // 1 JMD = 0.0127 BBD  (1 BBD ~= J$79)
 };
 
 export function getCurrencyForCountry(countryCode: string): CurrencyInfo {

@@ -573,10 +573,10 @@ export const products: Product[] = [
       Includes: 'Frame, canopy, sides, carry bags',
     },
     tags: ['canopy', 'tent', '10x30', 'event', 'rental', 'wedding', 'large'],
-    price: 5000,
+    price: 70000,
     priceTiers: [
-      { quantity: 1, unitLabel: 'Rent for 4 hours', priceJMD: 5000, rentalPeriod: 'per 4 hours' },
       { quantity: 1, unitLabel: 'Purchase outright', priceJMD: 70000 },
+      { quantity: 1, unitLabel: 'Rent for 4 hours', priceJMD: 5000, rentalPeriod: 'per 4 hours' },
       { quantity: 0, unitLabel: 'Long-term / multi-day rental', priceJMD: null, thresholdLabel: 'Multi-day or recurring booking', quoteOnly: true },
     ],
     inStock: true,

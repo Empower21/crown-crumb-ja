@@ -60,6 +60,11 @@ export interface VendorKit {
   description: string;
   includedProductSlugs: string[];
   price: number | null;
+  /**
+   * Sum of included products at their entry-tier prices. When > price,
+   * customers see "was J$X" struck through with a savings badge.
+   */
+  comparePrice?: number | null;
   image: string;
 }
 

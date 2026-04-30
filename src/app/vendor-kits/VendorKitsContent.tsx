@@ -132,10 +132,26 @@ export function VendorKitsContent() {
 
                     <div className="flex flex-col sm:flex-row items-center gap-4">
                       <div className="text-center sm:text-left">
-                        <p className="font-heading text-2xl font-bold text-crown-lime">
-                          {formatPrice(kit.price)}
+                        <div className="flex items-baseline gap-2 flex-wrap justify-center sm:justify-start">
+                          <span className="font-heading text-2xl font-bold text-crown-lime">
+                            {formatPrice(kit.price)}
+                          </span>
+                          {kit.comparePrice && kit.price && kit.comparePrice > kit.price && (
+                            <>
+                              <span className="text-sm line-through text-crown-muted">
+                                {formatPrice(kit.comparePrice)}
+                              </span>
+                              <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-crown-lime/15 border border-crown-lime/40 text-crown-lime font-bold">
+                                Save {Math.round((1 - kit.price / kit.comparePrice) * 100)}%
+                              </span>
+                            </>
+                          )}
+                        </div>
+                        <p className="text-xs text-crown-muted mt-1">
+                          {kit.comparePrice && kit.price && kit.comparePrice > kit.price
+                            ? `Bundle price • You save ${formatPrice(kit.comparePrice - kit.price)} vs. buying individually`
+                            : 'Bundle price • Save vs. individual'}
                         </p>
-                        <p className="text-xs text-crown-muted">Bundle price &bull; Save vs. individual</p>
                       </div>
                       <button
                         onClick={() => {

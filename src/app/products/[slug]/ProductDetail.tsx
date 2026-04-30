@@ -4,15 +4,17 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Check, ShoppingBag, MessageCircle } from 'lucide-react';
-import { whatsappLink } from '@/lib/utils';
+import { whatsappLink, openWhatsApp } from '@/lib/utils';
 import { useCart } from '@/context/CartContext';
 import { useGeoPrice } from '@/hooks/useGeoPrice';
 import { DeliveryEstimator } from '@/components/products/DeliveryEstimator';
+import { PriceTierSelector } from '@/components/products/PriceTierSelector';
 import type { Product } from '@/types';
 import { products } from '@/data/products';
 
 export function ProductDetail({ product }: { product: Product }) {
   const [activeImage, setActiveImage] = useState(0);
+  const [activeTierIndex, setActiveTierIndex] = useState(0);
   const { addItem, setIsOpen } = useCart();
   const { formatGeoPrice } = useGeoPrice();
 
@@ -20,8 +22,27 @@ export function ProductDetail({ product }: { product: Product }) {
     .filter((p) => p.category === product.category && p.slug !== product.slug)
     .slice(0, 3);
 
+  const activeTier = product.priceTiers?.[activeTierIndex];
+  const displayPrice = activeTier?.priceJMD ?? product.price;
+
   const handleAddToCart = () => {
-    addItem(product);
+    // When the product has tiers, add a snapshot variant with the chosen tier's
+    // price so the cart shows the right total. The slug stays stable so adding
+    // the same tier twice just bumps the quantity.
+    if (activeTier && !activeTier.quoteOnly && activeTier.priceJMD !== null) {
+      // Use a slug-safe version of the tier label so rental + sale tiers
+      // with the same quantity (e.g., 10x30 canopy) don't collide.
+      const tierKey = activeTier.unitLabel.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const variant: Product = {
+        ...product,
+        slug: `${product.slug}::${tierKey}`,
+        name: `${product.name} — ${activeTier.unitLabel}`,
+        price: activeTier.priceJMD,
+      };
+      addItem(variant);
+    } else {
+      addItem(product);
+    }
     setIsOpen(true);
   };
 
@@ -38,12 +59,12 @@ export function ProductDetail({ product }: { product: Product }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Gallery */}
           <div className="space-y-4">
-            <div className="relative h-72 sm:h-96 rounded-2xl overflow-hidden bg-crown-dark-card">
+            <div className="relative h-72 sm:h-96 rounded-2xl overflow-hidden bg-gradient-to-br from-white via-white to-neutral-50 shadow-lg ring-1 ring-black/5">
               <Image
                 src={product.images[activeImage]}
                 alt={product.name}
                 fill
-                className="object-contain p-4"
+                className="object-contain p-6 [filter:contrast(1.04)_saturate(1.06)] drop-shadow-md"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
               />
@@ -83,13 +104,33 @@ export function ProductDetail({ product }: { product: Product }) {
                 {product.name}
               </h1>
               <div className="mt-3 flex items-baseline gap-3">
-                <span className="font-heading text-2xl font-bold text-crown-lime">
-                  {formatGeoPrice(product.price)}
-                </span>
+                {product.priceTiers ? (
+                  <>
+                    <span className="text-xs uppercase tracking-wider text-crown-muted">
+                      From
+                    </span>
+                    <span className="font-heading text-2xl font-bold text-crown-lime">
+                      {formatGeoPrice(displayPrice)}
+                    </span>
+                  </>
+                ) : (
+                  <span className="font-heading text-2xl font-bold text-crown-lime">
+                    {formatGeoPrice(product.price)}
+                  </span>
+                )}
               </div>
             </div>
 
             <p className="text-crown-muted leading-relaxed">{product.description}</p>
+
+            {/* Tier selector — only when product has tiered pricing */}
+            {product.priceTiers && (
+              <PriceTierSelector
+                product={product}
+                activeTierIndex={activeTierIndex}
+                onChange={setActiveTierIndex}
+              />
+            )}
 
             {/* Features */}
             <div>
@@ -127,22 +168,27 @@ export function ProductDetail({ product }: { product: Product }) {
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <button
                 onClick={handleAddToCart}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-crown-lime text-crown-dark font-bold rounded-full hover:bg-crown-lime/90 transition-all"
+                disabled={activeTier?.quoteOnly}
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-crown-lime text-crown-dark font-bold rounded-full hover:bg-crown-lime/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ShoppingBag size={18} />
-                Add to Cart
+                {activeTier?.quoteOnly ? 'Request Quote Instead' : 'Add to Cart'}
               </button>
-              <a
-                href={whatsappLink(
-                  `Hi Crown Crumb! I'm interested in the ${product.name}. Can I get pricing and availability?`
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 px-6 py-3 border-2 border-[#25D366] text-[#25D366] font-bold rounded-full hover:bg-[#25D366]/10 transition-all"
-              >
-                <MessageCircle size={18} />
-                Ask on WhatsApp
-              </a>
+              {(() => {
+                const askMsg = `Hi Crown Crumb! I'm interested in the ${product.name}. Can I get pricing and availability?`;
+                return (
+                  <a
+                    href={whatsappLink(askMsg)}
+                    onClick={openWhatsApp(askMsg)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 px-6 py-3 border-2 border-[#25D366] text-[#25D366] font-bold rounded-full hover:bg-[#25D366]/10 transition-all"
+                  >
+                    <MessageCircle size={18} />
+                    Ask on WhatsApp
+                  </a>
+                );
+              })()}
             </div>
 
             {/* Delivery Estimator */}
@@ -150,8 +196,8 @@ export function ProductDetail({ product }: { product: Product }) {
 
             {/* Payment info */}
             <div className="bg-crown-dark-card rounded-xl p-4 space-y-2 text-xs text-crown-muted">
-              <p><span className="text-crown-white font-bold">Payment:</span> Bank Deposit (NCB/Scotiabank) or Online Payment.</p>
-              <p><span className="text-crown-white font-bold">Currency:</span> All prices in Jamaican Dollars (JMD). International visitors see approximate conversions.</p>
+              <p><span className="text-crown-white font-bold">Payment:</span> Cash on Delivery or Online Payment (card via Stripe).</p>
+              <p><span className="text-crown-white font-bold">Currency:</span> Prices shown in your selected currency. Default is Jamaican Dollars (JMD); international visitors see prices in USD/CAD/GBP automatically.</p>
             </div>
           </div>
         </div>

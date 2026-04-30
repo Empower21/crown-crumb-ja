@@ -2,7 +2,9 @@
 
 import { useState, FormEvent } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
-import { whatsappLink } from '@/lib/utils';
+import { whatsappLink, openWhatsApp } from '@/lib/utils';
+
+const FOLLOWUP_MSG = 'Hi Crown Crumb! I just submitted a contact form and wanted to follow up.';
 
 const PRODUCT_INTERESTS = [
   'Display & Signage',
@@ -52,7 +54,8 @@ export function ContactForm() {
           Thank you for reaching out. We&apos;ll get back to you within 24 hours.
         </p>
         <a
-          href={whatsappLink('Hi Crown Crumb! I just submitted a contact form and wanted to follow up.')}
+          href={whatsappLink(FOLLOWUP_MSG)}
+          onClick={openWhatsApp(FOLLOWUP_MSG)}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block px-6 py-3 bg-[#25D366] text-white font-bold rounded-full hover:bg-[#22c35e] transition-colors"

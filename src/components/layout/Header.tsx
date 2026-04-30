@@ -11,6 +11,7 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/products', label: 'Products' },
   { href: '/vendor-kits', label: 'Vendor Kits' },
+  { href: '/events', label: 'Upcoming Events' },
   { href: '/checklist', label: 'Free Checklist' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },

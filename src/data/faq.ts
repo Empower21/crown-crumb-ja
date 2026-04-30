@@ -22,7 +22,7 @@ export const faqItems: FAQItem[] = [
   {
     question: 'What payment methods do you accept?',
     answer:
-      'We accept bank deposit/transfer (NCB or Scotiabank) and online payment at checkout. For bank deposits, your order will be confirmed once payment clears. Contact us on WhatsApp for bank details.',
+      'We accept cash on delivery and online payment (debit / credit card) at checkout. For local orders, you can pay cash when your order arrives; for online payment, we use Stripe to process cards securely.',
     category: 'payment',
   },
   {

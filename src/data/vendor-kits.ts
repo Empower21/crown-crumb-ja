@@ -37,7 +37,7 @@ export const vendorKits: VendorKit[] = [
       'ice-pack-sheets',
     ],
     price: 48000,
-    image: '/products/display-risers/wood-risers.jpg',
+    image: '/products/display-risers/cupcake-display.png',
   },
   {
     slug: 'big-tings-a-gwaan',

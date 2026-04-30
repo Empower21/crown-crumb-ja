@@ -84,7 +84,7 @@ export function Footer() {
             </ul>
             <div className="mt-4 p-3 bg-crown-dark-surface rounded-lg">
               <p className="text-xs text-crown-muted">
-                <span className="font-bold text-crown-white">Payment:</span> Bank Deposit (NCB/Scotiabank) &bull; Online Payment
+                <span className="font-bold text-crown-white">Payment:</span> Cash on Delivery &bull; Online Payment
               </p>
               <p className="text-xs text-crown-muted mt-1">
                 <span className="font-bold text-crown-white">Delivery:</span> Islandwide across Jamaica

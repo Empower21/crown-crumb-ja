@@ -9,6 +9,7 @@ import { useCart } from '@/context/CartContext';
 import { useGeoPrice } from '@/hooks/useGeoPrice';
 import { DeliveryEstimator } from '@/components/products/DeliveryEstimator';
 import { PriceTierSelector } from '@/components/products/PriceTierSelector';
+import { getPriceDisplay } from '@/lib/product-pricing';
 import type { Product } from '@/types';
 import { products } from '@/data/products';
 
@@ -24,6 +25,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
   const activeTier = product.priceTiers?.[activeTierIndex];
   const displayPrice = activeTier?.priceJMD ?? product.price;
+  const priceDisplay = getPriceDisplay(product);
 
   const handleAddToCart = () => {
     // When the product has tiers, add a snapshot variant with the chosen tier's
@@ -103,16 +105,31 @@ export function ProductDetail({ product }: { product: Product }) {
               <h1 className="font-heading text-3xl sm:text-4xl font-bold text-crown-white mt-2">
                 {product.name}
               </h1>
-              <div className="mt-3 flex items-baseline gap-3">
-                {product.priceTiers ? (
-                  <>
-                    <span className="text-xs uppercase tracking-wider text-crown-muted">
-                      From
-                    </span>
+              <div className="mt-3">
+                {priceDisplay.kind === 'buy-or-rent' ? (
+                  <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-xs uppercase tracking-wider text-crown-muted">Buy</span>
+                      <span className="font-heading text-2xl font-bold text-crown-lime">
+                        {formatGeoPrice(priceDisplay.buy)}
+                      </span>
+                    </div>
+                    <span className="text-crown-muted">•</span>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-xs uppercase tracking-wider text-crown-muted">or Rent</span>
+                      <span className="font-heading text-xl font-bold text-crown-lavender">
+                        {formatGeoPrice(priceDisplay.rent)}
+                      </span>
+                      <span className="text-xs text-crown-muted">{priceDisplay.rentPeriod}</span>
+                    </div>
+                  </div>
+                ) : priceDisplay.kind === 'tiered' ? (
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-xs uppercase tracking-wider text-crown-muted">From</span>
                     <span className="font-heading text-2xl font-bold text-crown-lime">
                       {formatGeoPrice(displayPrice)}
                     </span>
-                  </>
+                  </div>
                 ) : (
                   <span className="font-heading text-2xl font-bold text-crown-lime">
                     {formatGeoPrice(product.price)}

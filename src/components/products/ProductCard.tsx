@@ -6,10 +6,12 @@ import { ShoppingBag } from 'lucide-react';
 import type { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
 import { useGeoPrice } from '@/hooks/useGeoPrice';
+import { getPriceDisplay } from '@/lib/product-pricing';
 
 export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
   const { formatGeoPrice } = useGeoPrice();
+  const display = getPriceDisplay(product);
 
   return (
     <div className="bg-crown-dark-card rounded-2xl overflow-hidden border border-crown-dark-surface hover:border-crown-lime/30 transition-all duration-300 h-full flex flex-col group">
@@ -36,23 +38,41 @@ export function ProductCard({ product }: { product: Product }) {
         <p className="text-sm text-crown-muted mt-2 line-clamp-2 flex-1">
           {product.description}
         </p>
-        <div className="mt-4 flex items-center justify-between">
-          <span className="font-heading text-lg font-bold text-crown-lime">
-            {product.priceTiers ? (
-              <>
+        <div className="mt-4 flex items-center justify-between gap-2">
+          <div className="font-heading text-lg font-bold text-crown-lime leading-tight">
+            {display.kind === 'buy-or-rent' ? (
+              <div className="flex flex-col gap-0.5">
+                <span>
+                  <span className="text-xs text-crown-muted font-normal uppercase tracking-wider mr-1">
+                    Buy
+                  </span>
+                  {formatGeoPrice(display.buy)}
+                </span>
+                <span className="text-sm font-semibold">
+                  <span className="text-xs text-crown-muted font-normal uppercase tracking-wider mr-1">
+                    or Rent
+                  </span>
+                  {formatGeoPrice(display.rent)}
+                  <span className="text-xs text-crown-muted font-normal ml-1">
+                    {display.rentPeriod}
+                  </span>
+                </span>
+              </div>
+            ) : display.kind === 'tiered' ? (
+              <span>
                 <span className="text-xs text-crown-muted font-normal uppercase tracking-wider mr-1">
                   From
                 </span>
-                {formatGeoPrice(product.price)}
-              </>
+                {formatGeoPrice(display.from)}
+              </span>
             ) : (
-              formatGeoPrice(product.price)
+              <span>{formatGeoPrice(display.price)}</span>
             )}
-          </span>
+          </div>
           {product.priceTiers ? (
             <Link
               href={`/products/${product.slug}`}
-              className="flex items-center gap-2 px-4 py-2 bg-crown-lime text-crown-dark text-sm font-bold rounded-full hover:bg-crown-lime/90 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-crown-lime text-crown-dark text-sm font-bold rounded-full hover:bg-crown-lime/90 transition-colors shrink-0"
             >
               <ShoppingBag size={14} />
               Options
@@ -60,7 +80,7 @@ export function ProductCard({ product }: { product: Product }) {
           ) : (
             <button
               onClick={() => addItem(product)}
-              className="flex items-center gap-2 px-4 py-2 bg-crown-lime text-crown-dark text-sm font-bold rounded-full hover:bg-crown-lime/90 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-crown-lime text-crown-dark text-sm font-bold rounded-full hover:bg-crown-lime/90 transition-colors shrink-0"
             >
               <ShoppingBag size={14} />
               Add
